@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-# Multic
-=======
-# MULTICLASS CLASSIFIER WITH HADOOP
->>>>>>> 234e12fcd55970bad4d5ddbb7046ba130a458178
+# Multiclass Classifier with Hadoop
+
 
 This one of the simplest OVA binary classifier parallelization using hadoop.
 There are two classifiers which are supported,
