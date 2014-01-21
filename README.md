@@ -34,10 +34,12 @@ Each line of the input dataset must be of the format
 To convert the CLEF dataset (can be downloaded from 
    http://gcdart.blogspot.com/2012/08/datasets_929.html) in the folder, run
 
+```
 hadoop jar MulticlassClassifier.jar hadoop.Converter \
  -D gc.Converter.input=datasets/clef/text/ \
  -D gc.Converter.output=datasets/clef/seqfile \
  -D gc.Converter.name=converter
+```
 
 Where the HDFS path datasets/clef/text/ contains the input dataset.
 The output HDFS path contains the same data in a seq-file format
@@ -50,6 +52,7 @@ the dataset in parallel.
 
 To train Binary svm on the seqfile generated above, 
 
+```
 hadoop jar hblr.jar hadoop.TrainingDriver \
        -D gc.TrainingDriver.name=svm-train \
        -D gc.TrainingDriver.dataset=datasets/clef/seqfile/ \
@@ -59,6 +62,7 @@ hadoop jar hblr.jar hadoop.TrainingDriver \
        -D gc.TrainingDriver.svm.C=1 \
     -D gc.TrainingDriver.svm.eps=.1 \
     -D gc.TrainingDriver.svm.maxiter=1000
+```
 
 This trains a binary-svm for each class-label (separated by newlines) from the 
 input file gc.TrainingDriver.input and uses the dataset located at 
@@ -79,6 +83,7 @@ The parameters of the SVM are given using gc.TrainingDriver.svm.{C,eps,maxiter}
 
 To train a logistic regression,
 
+```
 hadoop jar hblr.jar hadoop.TrainingDriver \
        -D gc.TrainingDriver.name=lr-train \
        -D gc.TrainingDriver.dataset=datasets/clef/seqfile/ \
@@ -88,6 +93,7 @@ hadoop jar hblr.jar hadoop.TrainingDriver \
        -D gc.TrainingDriver.lr.lambda=.01 \
        -D gc.TrainingDriver.lr.eps=1e-4 \
     -D gc.TrainingDriver.svm.maxnfn=1000
+```
 
 The default value of gc.TrainingDriver.lr.eps is .1, which is insufficient for 
 most datasets. Make sure you change to a stricter value like 1e-4 as above.
@@ -98,12 +104,14 @@ most datasets. Make sure you change to a stricter value like 1e-4 as above.
 Ideally you want to test a dataset different than the training set. But here, 
 the same training dataset is used
 
+```
 hadoop jar hblr.jar hadoop.TestingDriver \
         -D gc.TestingDriver.name=svm-test \
         -D gc.TestingDriver.dataset=datasets/clef/seqfile/ \
         -D gc.TestingDriver.output=datasets/clef/pred/\
         -D gc.TestingDriver.input=datasets/clef/params/svm/\
 	-D gc.TestingDriver.rank=2
+```
 
 This stores the  2 (gc.TestingDriver.rank)  highest scoring class-labels at
 location gc.TestingDriver.output of the testing-dataset located at 
